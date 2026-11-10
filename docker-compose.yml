@@ -1,17 +1,37 @@
 services:
-  # FRONTEND (Next.js + Bootstrap) 
+  # ==========================================
+  # BACKEND (FastAPI + Python + IA) - Sprint 2
+  # ==========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: planofacil_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PORTA=8000
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  # ==========================================
+  # FRONTEND (Next.js + Bootstrap) - Sprint 1
+  # ==========================================
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: planofacil_frontend
     ports:
-      - "8000:8000"
+      - "8080:8080"
     volumes:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
     environment:
       - NODE_ENV=development
-      - PORT=8000
+      - PORT=8080
     restart: unless-stopped

@@ -42,3 +42,7 @@ env/
 *.pdf
 Trabalho Final Web 26-2*
 
+# Servidor pessoal / MineWake (não enviar para o repositório da disciplina)
+Server_Web/
+
+
