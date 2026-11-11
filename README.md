@@ -78,28 +78,6 @@ backend/
 
 ---
 
-## 🎤 Roteiro de Apresentação (Pitch de 5 Minutos - Sprint 2)
-
-Para apresentação no formato Daily do Scrum pelo representante da equipe:
-
-1. **O que foi feito (1.5 min):**
-   * "Nesta Sprint 2, nosso foco foi desenvolver a **API RESTful em FastAPI** e implementar o **endpoint de Inteligência Artificial** com o Google Gemini."
-   * "Organizamos o código em módulos em português: `rotas`, `esquemas` (com Pydantic) e `servicos` (com a lógica de integração)."
-   * "Seguindo a regra da sprint, os dados estão mantidos em memória no `banco_memoria.py`, sem complexidade de banco relacional ainda."
-   * "A chave da IA está devidamente isolada no arquivo `.env` fora do repositório."
-
-2. **Demonstração no Swagger `/docs` (2.5 min):**
-   * Abra a URL pública em `/docs`.
-   * Mostre o endpoint `GET /api/planos` -> *Try it out* -> *Execute* (exibe os planos mockados em memória).
-   * Mostre o endpoint `POST /api/ia/gerar-plano`:
-     * Envie: `{"disciplina": "Matemática", "ano": "6º Ano", "tema": "Frações e Geometria"}`.
-     * Clique em *Execute* e mostre a resposta em JSON com o título, habilidade BNCC real e roteiro da aula.
-   * Explique: *"Implementamos também um sistema de cache em memória e controle de contingência para evitar que a API estoure o limite de cota gratuito da Google."*
-   * Mostre o endpoint `POST /api/planos` inserindo um novo plano e retornando `201 Created`.
-
-3. **Bloqueios e Próximos Passos (1 min):**
-   * "Sem bloqueios na Sprint 2. A API está funcional e documentada."
-   * "Para a Sprint 3, o foco será a **Integração Front-API e Autenticação JWT**, conectando a interface em Next.js diretamente aos endpoints da API hospedada."
 
 
 ## 🚀 Como Executar o Backend (Sprint 2)
@@ -163,25 +141,3 @@ backend/
 
 ---
 
-## 🎤 Roteiro de Apresentação (Pitch de 5 Minutos - Sprint 2)
-
-Para apresentação no formato Daily do Scrum pelo representante da equipe:
-
-1. **O que foi feito (1.5 min):**
-   * "Nesta Sprint 2, nosso foco foi desenvolver a **API RESTful em FastAPI** e implementar o **endpoint de Inteligência Artificial** com o Google Gemini."
-   * "Organizamos o código em módulos em português: `rotas`, `esquemas` (com Pydantic) e `servicos` (com a lógica de integração)."
-   * "Seguindo a regra da sprint, os dados estão mantidos em memória no `banco_memoria.py`, sem complexidade de banco relacional ainda."
-   * "A chave da IA está devidamente isolada no arquivo `.env` fora do repositório."
-
-2. **Demonstração no Swagger `/docs` (2.5 min):**
-   * Abra a URL pública em `/docs`.
-   * Mostre o endpoint `GET /api/planos` -> *Try it out* -> *Execute* (exibe os planos mockados em memória).
-   * Mostre o endpoint `POST /api/ia/gerar-plano`:
-     * Envie: `{"disciplina": "Matemática", "ano": "6º Ano", "tema": "Frações e Geometria"}`.
-     * Clique em *Execute* e mostre a resposta em JSON com o título, habilidade BNCC real e roteiro da aula.
-   * Explique: *"Implementamos também um sistema de cache em memória e controle de contingência para evitar que a API estoure o limite de cota gratuito da Google."*
-   * Mostre o endpoint `POST /api/planos` inserindo um novo plano e retornando `201 Created`.
-
-3. **Bloqueios e Próximos Passos (1 min):**
-   * "Sem bloqueios na Sprint 2. A API está funcional e documentada."
-   * "Para a Sprint 3, o foco será a **Integração Front-API e Autenticação JWT**, conectando a interface em Next.js diretamente aos endpoints da API hospedada."
