@@ -45,4 +45,8 @@ Trabalho Final Web 26-2*
 # Servidor pessoal / MineWake (não enviar para o repositório da disciplina)
 Server_Web/
 
+# Easter Egg pessoal (não enviar para o repositório da disciplina)
+backend/easter_egg/
+easter_egg/
+
 
