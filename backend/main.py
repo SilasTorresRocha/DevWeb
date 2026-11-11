@@ -3,25 +3,21 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-# Carrega configurações do arquivo .env
+diretorio_backend = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(diretorio_backend, ".env"))
+load_dotenv(os.path.join(os.path.dirname(diretorio_backend), ".env"))
 load_dotenv()
 
 from rotas.planos import roteador as roteador_planos
 from rotas.inteligencia import roteador as roteador_ia
 
-"""
-Projeto: PlanoFácil - Apoio ao Planejamento Docente com IA
-"""
+VERSAO_API = "1.1.3"
 
 app = FastAPI(
-    title="PlanoFácil API",
-    description="API RESTful modular para apoio ao planejamento docente na Educação Básica com Inteligência Artificial (Ideia 8).",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
+    title="PlanoFácil",
+    version=VERSAO_API
 )
 
-# Configuração de CORS para permitir requisições do frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -30,18 +26,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Rotas
-app.include_router(roteador_planos, prefix="/api/planos", tags=["Planos de Aula"])
-app.include_router(roteador_ia, prefix="/api/ia", tags=["Inteligência Artificial"])
+app.include_router(roteador_planos, prefix="/api/planos", tags=["Planos"])
+app.include_router(roteador_ia, prefix="/api/ia", tags=["IA"])
 
-@app.get("/", tags=["Status"])
-def verificar_status():
-    """Rota raiz para verificação rápida de funcionamento da API."""
+@app.get("/")
+def status():
     return {
-        "sistema": "PlanoFácil API",
-        "status": "operacional",
-        "versao": "1.0.0",
-        "documentacao_swagger": "/docs"
+        "status": "ok",
+        "versao": VERSAO_API
     }
 
 if __name__ == "__main__":

@@ -11,6 +11,6 @@ COPY . .
 
 EXPOSE 8000
 
-# Executa o servidor FastAPI com Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Executa o servidor FastAPI com Uvicorn e auto-reload ativado
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 

@@ -4,11 +4,19 @@ import time
 import httpx
 from dotenv import load_dotenv
 
-# Carrega variáveis de ambiente do arquivo .env
+# Carrega variáveis de ambiente do arquivo .env (pasta backend ou raiz)
+diretorio_backend = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(diretorio_backend, ".env"))
+load_dotenv(os.path.join(os.path.dirname(diretorio_backend), ".env"))
 load_dotenv()
 
 CHAVE_API = os.getenv("CHAVE_API_GEMINI", "").strip()
-URL_GEMINI = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+MODELOS_TENTATIVA = [
+    "gemini-3.5-flash-lite",
+    "gemini-3.8-flash",
+    "gemini-flash-latest"
+]
+TEMPO_LIMITE_TIMEOUT_SEGUNDOS = 30.0
 
 # Cache em memória para evitar gastar cota em requisições repetidas
 CACHE_CONSULTAS = {}
@@ -18,10 +26,6 @@ ULTIMA_REQUISICAO = 0
 INTERVALO_MINIMO_SEGUNDOS = 3.0
 
 def plano_fallback(disciplina: str, ano: str, tema: str) -> dict:
-    """
-    Plano de contingência.
-    Garante que a apresentacao nao trave caso a internet oscile ou a cota esgote.
-    """
     habilidades_exemplo = {
         "Matemática": "EF06MA17 - Reconhecer e identificar figuras espaciais (prismas, pirâmides) e suas planificações no cotidiano.",
         "Língua Portuguesa": "EF08LP05 - Analisar e produzir textos argumentativos e de opinião explorando recursos de síntese e coesão.",
@@ -46,10 +50,6 @@ def plano_fallback(disciplina: str, ano: str, tema: str) -> dict:
     }
 
 def gerar_sugestao_com_ia(disciplina: str, ano: str, tema: str) -> dict:
-    """
-    Chama a API do Google Gemini via requisição HTTP POST direta (REST),
-    utilizando cache em memória e plano de contingência automático.
-    """
     global ULTIMA_REQUISICAO
 
     chave_cache = f"{disciplina}_{ano}_{tema}".strip().lower()
@@ -60,8 +60,12 @@ def gerar_sugestao_com_ia(disciplina: str, ano: str, tema: str) -> dict:
         resultado["origem"] = "cache_memoria (economia de cota)"
         return resultado
 
+    # Recarrega a chave dinamicamente caso o arquivo .env tenha sido criado ou editado recentemente
+    chave_atual = os.getenv("CHAVE_API_GEMINI", CHAVE_API).strip()
+
     # Se não houver chave configurada, usa o fallback imediato
-    if not CHAVE_API or CHAVE_API.startswith("sua_chave"):
+    if not chave_atual or chave_atual.startswith("sua_chave"):
+        print("[IA AVISO] Nenhuma chave CHAVE_API_GEMINI encontrada no .env. Ativando plano de contingência.")
         return plano_fallback(disciplina, ano, tema)
 
     # Controle de intervalo rate limit
@@ -89,7 +93,7 @@ Responda ESTRITAMENTE em formato JSON puro, sem blocos de código adicionais, co
 
     cabecalhos = {
         "Content-Type": "application/json",
-        "X-goog-api-key": CHAVE_API
+        "X-goog-api-key": chave_atual
     }
 
     corpo = {
@@ -102,45 +106,58 @@ Responda ESTRITAMENTE em formato JSON puro, sem blocos de código adicionais, co
         ]
     }
 
-    try:
-        # Faz a chamada REST para o Gemini
-        with httpx.Client(timeout=10.0) as cliente:
-            resposta = cliente.post(URL_GEMINI, headers=cabecalhos, json=corpo)
+    # Tenta os modelos disponíveis
+    for modelo in MODELOS_TENTATIVA:
+        url_gemini = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={chave_atual}"
+        try:
+            print(f"[IA INFO] Tentando chamada ao Google Gemini (Modelo: {modelo}, timeout: {TEMPO_LIMITE_TIMEOUT_SEGUNDOS}s)...")
+            with httpx.Client(timeout=TEMPO_LIMITE_TIMEOUT_SEGUNDOS) as cliente:
+                resposta = cliente.post(url_gemini, headers=cabecalhos, json=corpo)
 
-        if resposta.status_code == 200:
-            dados = resposta.json()
-            texto_gerado = dados["candidates"][0]["content"]["parts"][0]["text"].strip()
+            if resposta.status_code == 200:
+                dados = resposta.json()
+                texto_gerado = dados["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-            # Remove marcações de markdown ```json
-            if texto_gerado.startswith("```"):
-                linhas = texto_gerado.split("\n")
-                if linhas[0].startswith("```"):
-                    linhas = linhas[1:]
-                if linhas and linhas[-1].startswith("```"):
-                    linhas = linhas[:-1]
-                texto_gerado = "\n".join(linhas).strip()
+                # Remove marcações de markdown ```json
+                if texto_gerado.startswith("```"):
+                    linhas = texto_gerado.split("\n")
+                    if linhas[0].startswith("```"):
+                        linhas = linhas[1:]
+                    if linhas and linhas[-1].startswith("```"):
+                        linhas = linhas[:-1]
+                    texto_gerado = "\n".join(linhas).strip()
 
-            json_ia = json.loads(texto_gerado)
+                json_ia = json.loads(texto_gerado)
 
-            resultado = {
-                "titulo": json_ia.get("titulo", f"Aula: {tema}"),
-                "disciplina": disciplina,
-                "ano": ano,
-                "habilidade_bncc": json_ia.get("habilidade_bncc", "Habilidade BNCC a ser alinhada."),
-                "objetivo": json_ia.get("objetivo", f"Compreender os aspectos centrais de {tema}."),
-                "metodologia": json_ia.get("metodologia", "Atividades didáticas a definir."),
-                "origem": "api_gemini_ao_vivo"
-            }
+                resultado = {
+                    "titulo": json_ia.get("titulo", f"Aula: {tema}"),
+                    "disciplina": disciplina,
+                    "ano": ano,
+                    "habilidade_bncc": json_ia.get("habilidade_bncc", "Habilidade BNCC a ser alinhada."),
+                    "objetivo": json_ia.get("objetivo", f"Compreender os aspectos centrais de {tema}."),
+                    "metodologia": json_ia.get("metodologia", "Atividades didáticas a definir."),
+                    "origem": "api_gemini_ao_vivo"
+                }
 
-            # Salva no cache
-            CACHE_CONSULTAS[chave_cache] = resultado
-            return resultado
+                # Salva no cache
+                CACHE_CONSULTAS[chave_cache] = resultado
+                print(f"[IA SUCESSO] Plano gerado pelo modelo {modelo} com sucesso!")
+                return resultado
 
-        else:
-            # Em caso de erro na API do Google (429 cota, 400, etc.), usa o plano de contingência
-            return plano_fallback(disciplina, ano, tema)
+            else:
+                print(f"[IA ERRO] Modelo {modelo} retornou HTTP {resposta.status_code}: {resposta.text[:300]}")
+                # Se for indisponibilidade temporária (503/429/500) ou modelo não encontrado (404), tenta o próximo modelo
+                if resposta.status_code in (404, 429, 500, 502, 503, 504):
+                    time.sleep(1.0)
+                    continue
+                # Se for erro definitivo (chave inválida 401/403 ou requisição malformada 400), não adianta tentar outros
+                break
 
-    except Exception:
-        # Qualquer falha de rede/timeout ativa o fallback seguro
-        return plano_fallback(disciplina, ano, tema)
+        except Exception as erro:
+            print(f"[IA ERRO] Exceção ao chamar modelo {modelo}: {erro}")
+            continue
+
+    # Se todas as tentativas falharem, aciona o fallback seguro para não quebrar a aplicação
+    print("[IA AVISO] Usando plano_fallback (contingência segura).")
+    return plano_fallback(disciplina, ano, tema)
 
