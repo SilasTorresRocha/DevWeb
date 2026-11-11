@@ -139,3 +139,5 @@ backend/
 * [x] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
 
 ---
+
+
