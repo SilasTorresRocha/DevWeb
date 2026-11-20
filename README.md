@@ -20,15 +20,20 @@ Projeto desenvolvido para a disciplina de **Desenvolvimento de Aplicações Web 
 ## 🚀 Como Executar o Backend (Sprint 2)
 
 ### Opção 1: Com Docker (Recomendado)
+
 Na raiz do projeto, execute:
+
 ```bash
 docker-compose up -d --build backend
 ```
+
 A API estará disponível em:
+
 * Documentação Swagger Interativa: [http://localhost:8000/docs](http://localhost:8000/docs)
 * Rota de Status: [http://localhost:8000/](http://localhost:8000/)
 
 ### Opção 2: Localmente com Python
+
 1. Acesse a pasta do backend:
    ```bash
    cd backend
@@ -69,28 +74,32 @@ backend/
 
 ## 🎯 Entregáveis e Critérios Atendidos (Sprint 2)
 
-* [x] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
-* [x] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
-* [x] **Modelos Pydantic alinhados ao Frontend:** Validação  dos dados de planos e requisições da IA.
-* [x] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
-* [x] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
-* [x] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
+* [X] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
+* [X] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
+* [X] **Modelos Pydantic alinhados ao Frontend:** Validação  dos dados de planos e requisições da IA.
+* [X] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
+* [X] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
+* [X] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
 
 ---
-
 
 ## 🚀 Como Executar o Backend (Sprint 2)
 
 ### Opção 1: Com Docker (Recomendado)
+
 Na raiz do projeto, execute:
+
 ```bash
 docker-compose up -d --build backend
 ```
+
 A API estará disponível em:
+
 * Documentação Swagger Interativa: [http://localhost:8000/docs](http://localhost:8000/docs)
 * Rota de Status: [http://localhost:8000/](http://localhost:8000/)
 
 ### Opção 2: Localmente com Python
+
 1. Acesse a pasta do backend:
    ```bash
    cd backend
@@ -131,15 +140,14 @@ backend/
 
 ## 🎯 Entregáveis e Critérios Atendidos (Sprint 2)
 
-* [x] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
-* [x] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
-* [x] **Modelos Pydantic alinhados ao Frontend:** Validação rigorosa dos dados de planos e requisições da IA.
-* [x] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
-* [x] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
-* [x] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
+* [X] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
+* [X] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
+* [X] **Modelos Pydantic alinhados ao Frontend:** Validação rigorosa dos dados de planos e requisições da IA.
+* [X] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
+* [X] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
+* [X] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
 
 ---
-
 
 ## Sprint 3 — Autenticação, Integração com API e Inteligência Artificial
 
@@ -147,54 +155,54 @@ backend/
 
 ### Backend
 
-- [x] Implementar API com FastAPI.
-- [x] Criar endpoint de cadastro de usuários.
-- [x] Criar endpoint de login.
-- [x] Implementar hash de senhas utilizando Argon2.
-- [x] Implementar autenticação utilizando JWT.
-- [x] Proteger endpoints de criação, listagem e exclusão de planos.
-- [x] Proteger endpoint de geração de planos com inteligência artificial.
-- [x] Garantir que usuários acessem somente seus próprios planos.
-- [x] Implementar validação dos dados utilizando Pydantic.
-- [x] Implementar integração com a API do Google Gemini.
-- [x] Implementar tratamento de erros na integração com IA.
-- [x] Implementar CORS configurável por variável de ambiente.
-- [x] Configurar backend utilizando Docker.
+- [X] Implementar API com FastAPI.
+- [X] Criar endpoint de cadastro de usuários.
+- [X] Criar endpoint de login.
+- [X] Implementar hash de senhas utilizando Argon2.
+- [X] Implementar autenticação utilizando JWT.
+- [X] Proteger endpoints de criação, listagem e exclusão de planos.
+- [X] Proteger endpoint de geração de planos com inteligência artificial.
+- [X] Garantir que usuários acessem somente seus próprios planos.
+- [X] Implementar validação dos dados utilizando Pydantic.
+- [X] Implementar integração com a API do Google Gemini.
+- [X] Implementar tratamento de erros na integração com IA.
+- [X] Implementar CORS configurável por variável de ambiente.
+- [X] Configurar backend utilizando Docker.
 
 ### Frontend
 
-- [x] Integrar frontend Next.js com a API FastAPI.
-- [x] Implementar formulário de cadastro.
-- [x] Implementar formulário de login.
-- [x] Implementar autenticação e envio de token JWT nas requisições.
-- [x] Implementar listagem de planos de aula do usuário autenticado.
-- [x] Implementar criação de planos de aula.
-- [x] Implementar exclusão de planos de aula.
-- [x] Implementar filtros por disciplina.
-- [x] Implementar geração de planos de aula utilizando IA.
-- [x] Preencher automaticamente os campos do formulário com os dados gerados pela IA.
-- [x] Implementar indicadores de carregamento durante operações.
-- [x] Implementar mensagens de sucesso e erro.
-- [x] Implementar tratamento de falhas de conexão com a API.
-- [x] Configurar URL da API utilizando variável de ambiente.
-- [x] Implementar botão para encerrar sessão.
+- [X] Integrar frontend Next.js com a API FastAPI.
+- [X] Implementar formulário de cadastro.
+- [X] Implementar formulário de login.
+- [X] Implementar autenticação e envio de token JWT nas requisições.
+- [X] Implementar listagem de planos de aula do usuário autenticado.
+- [X] Implementar criação de planos de aula.
+- [X] Implementar exclusão de planos de aula.
+- [X] Implementar filtros por disciplina.
+- [X] Implementar geração de planos de aula utilizando IA.
+- [X] Preencher automaticamente os campos do formulário com os dados gerados pela IA.
+- [X] Implementar indicadores de carregamento durante operações.
+- [X] Implementar mensagens de sucesso e erro.
+- [X] Implementar tratamento de falhas de conexão com a API.
+- [X] Configurar URL da API utilizando variável de ambiente.
+- [X] Implementar botão para encerrar sessão.
 
 ### Segurança
 
-- [x] Armazenar senhas utilizando hash, sem salvar senhas em texto puro.
-- [x] Implementar autenticação baseada em JWT.
-- [x] Exigir autenticação para operações protegidas.
-- [x] Impedir que usuários excluam planos pertencentes a outros usuários.
-- [ ] Implementar tratamento de sessão expirada no frontend.
+- [X] Armazenar senhas utilizando hash, sem salvar senhas em texto puro.
+- [X] Implementar autenticação baseada em JWT.
+- [X] Exigir autenticação para operações protegidas.
+- [X] Impedir que usuários excluam planos pertencentes a outros usuários.
+- [X] Implementar tratamento de sessão expirada no frontend.
 - [ ] Revisar configurações de segurança para o ambiente de produção.
 
 ### Infraestrutura e configuração
 
-- [x] Configurar Docker para o backend.
-- [x] Configurar variáveis de ambiente para URL da API.
-- [x] Configurar variáveis de ambiente para CORS.
-- [x] Configurar arquivo `.env` para credenciais e configurações sensíveis.
-- [x] Implementar configuração para execução local.
+- [X] Configurar Docker para o backend.
+- [X] Configurar variáveis de ambiente para URL da API.
+- [X] Configurar variáveis de ambiente para CORS.
+- [X] Configurar arquivo `.env` para credenciais e configurações sensíveis.
+- [X] Implementar configuração para execução local.
 - [ ] Hospedar frontend em ambiente público.
 - [ ] Hospedar backend em ambiente público.
 - [ ] Configurar comunicação entre frontend e backend hospedados.
@@ -202,17 +210,17 @@ backend/
 
 ### Testes
 
-- [x] Testar cadastro de usuário.
-- [x] Testar login com credenciais válidas.
-- [x] Testar login com credenciais inválidas.
-- [x] Testar cadastro com e-mail já existente.
-- [x] Testar acesso a endpoints protegidos sem autenticação.
-- [x] Testar listagem de planos autenticada.
-- [x] Testar criação de planos.
-- [x] Testar exclusão de planos.
-- [x] Testar geração de planos utilizando IA.
-- [x] Testar indicadores de carregamento.
-- [x] Testar mensagens de erro no frontend.
+- [X] Testar cadastro de usuário.
+- [X] Testar login com credenciais válidas.
+- [X] Testar login com credenciais inválidas.
+- [X] Testar cadastro com e-mail já existente.
+- [X] Testar acesso a endpoints protegidos sem autenticação.
+- [X] Testar listagem de planos autenticada.
+- [X] Testar criação de planos.
+- [X] Testar exclusão de planos.
+- [X] Testar geração de planos utilizando IA.
+- [X] Testar indicadores de carregamento.
+- [X] Testar mensagens de erro no frontend.
 - [ ] Testar aplicação completa em ambiente hospedado.
 
 ### Observações

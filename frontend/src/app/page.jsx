@@ -172,7 +172,12 @@ async function handleExcluirPlano(idParaRemover) {
 
   // Sem token, apresenta somente a tela de login.
   if (!token) {
-    return <FormularioLogin aoEntrar={handleEntrar} />;
+    return (
+      <FormularioLogin
+        aoEntrar={handleEntrar}
+        erroExterno={erroApi}
+      />
+    );
   }
 
   return (

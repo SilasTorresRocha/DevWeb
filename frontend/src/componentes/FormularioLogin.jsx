@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function FormularioLogin({ aoEntrar }) {
+export default function FormularioLogin({ aoEntrar, erroExterno = '' }) {
   const [modoCadastro, setModoCadastro] = useState(false);
 
   const [nome, setNome] = useState('');
@@ -82,9 +82,9 @@ console.log('URL da requisição:', `${API_URL}${endpoint}`);
                   : 'Entre para acessar seus planos de aula.'}
               </p>
 
-              {erro && (
+              {(erro || erroExterno) && (
                 <div className="alert alert-danger" role="alert">
-                  {erro}
+                  {erroExterno || erro}
                 </div>
               )}
 
