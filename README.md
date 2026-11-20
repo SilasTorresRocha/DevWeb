@@ -203,9 +203,9 @@ backend/
 - [X] Configurar variáveis de ambiente para CORS.
 - [X] Configurar arquivo `.env` para credenciais e configurações sensíveis.
 - [X] Implementar configuração para execução local.
-- [ ] Hospedar frontend em ambiente público.
-- [ ] Hospedar backend em ambiente público.
-- [ ] Configurar comunicação entre frontend e backend hospedados.
+- [X] Hospedar frontend em ambiente público.
+- [X] Hospedar backend em ambiente público.
+- [X] Configurar comunicação entre frontend e backend hospedados.
 - [ ] Validar aplicação em ambiente de produção.
 
 ### Testes
