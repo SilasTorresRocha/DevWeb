@@ -55,8 +55,12 @@ console.log('URL da requisição:', `${API_URL}${endpoint}`);
 
       await aoEntrar(dados);
     } catch (erro) {
-      setErro(erro.message || 'Erro ao conectar com o servidor.');
-    } finally {
+      if (erro instanceof TypeError) {
+        setErro('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      } else {
+        setErro(erro.message || 'Erro ao realizar a operação.');
+      }
+    }finally {
       setCarregando(false);
     }
   }

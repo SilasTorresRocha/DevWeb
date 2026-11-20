@@ -59,8 +59,12 @@ export default function FormularioPlano({
       setObjetivo(dados.objetivo);
       setMetodologia(dados.metodologia);
     } catch (erro) {
-      setErroIa(erro.message || 'Erro ao conectar com a inteligência artificial.');
-    } finally {
+      if (erro instanceof TypeError) {
+        setErroIa('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      } else {
+        setErroIa(erro.message || 'Erro ao gerar o plano com inteligência artificial.');
+      }
+    }finally {
       setCarregandoIa(false);
     }
   }

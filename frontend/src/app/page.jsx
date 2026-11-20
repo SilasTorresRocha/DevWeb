@@ -115,10 +115,15 @@ export default function PaginaPrincipal() {
       setPlanos((atuais) => [mapearPlano(dados), ...atuais]);
       setMensagemSucesso('Plano de aula salvo com sucesso!');
       return true;
-    } catch (erro) {
-      setErroApi(erro.message || 'Erro ao salvar o plano.');
+      } catch (erro) {
+      if (erro instanceof TypeError) {
+        setErroApi('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      } else {
+        setErroApi(erro.message || 'Erro ao salvar o plano.');
+      }
+
       return false;
-    } finally {
+    }finally {
       setSalvandoPlano(false);
     }
   }
@@ -154,8 +159,12 @@ async function handleExcluirPlano(idParaRemover) {
 
     setMensagemSucesso('Plano removido com sucesso!');
   } catch (erro) {
-    setErroApi(erro.message || 'Erro ao excluir o plano.');
-  } finally {
+    if (erro instanceof TypeError) {
+      setErroApi('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+    } else {
+      setErroApi(erro.message || 'Erro ao excluir o plano.');
+    }
+  }finally {
   await new Promise((resolver) => setTimeout(resolver, 500));
   setExcluindoId(null);
 }
