@@ -11,6 +11,10 @@ load_dotenv()
 from rotas.planos import roteador as roteador_planos
 from rotas.inteligencia import roteador as roteador_ia
 
+
+from rotas.autenticacao import roteador as roteador_autenticacao
+
+
 VERSAO_API = "1.2.0"
 
 app = FastAPI(
@@ -18,16 +22,33 @@ app = FastAPI(
     version=VERSAO_API
 )
 
+# Obtém as origens permitidas a partir da variável de ambiente
+origens_frontend = os.getenv(
+    "FRONTEND_URL",
+    "http://localhost:3000,http://127.0.0.1:3000"
+)
+
+origens_permitidas = [
+    origem.strip().rstrip("/")
+    for origem in origens_frontend.split(",")
+    if origem.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origens_permitidas,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.include_router(roteador_planos, prefix="/api/planos", tags=["Planos"])
 app.include_router(roteador_ia, prefix="/api/ia", tags=["IA"])
+
+app.include_router(
+    roteador_autenticacao,
+    prefix="/api/auth",
+    tags=["Autenticação"]
+)
 
 # Rota fixa de verificação de status
 @app.get("/status", tags=["Status"])

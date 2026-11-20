@@ -1,6 +1,7 @@
+
 services:
   # ==========================================
-  # BACKEND (FastAPI + Python + IA) - Sprint 2
+  # BACKEND (FastAPI + Python + IA) - Sprint 3
   # ==========================================
   backend:
     build:
@@ -13,6 +14,7 @@ services:
       - ./backend:/app
     environment:
       - PORTA=8000
+      - FRONTEND_URL=http://localhost:3000,http://127.0.0.1:3000
     env_file:
       - ./backend/.env
     restart: unless-stopped

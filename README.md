@@ -141,3 +141,82 @@ backend/
 ---
 
 
+## Sprint 3 — Autenticação, Integração com API e Inteligência Artificial
+
+**Período:** 16/11/2026 a 23/11/2026
+
+### Backend
+
+- [x] Implementar API com FastAPI.
+- [x] Criar endpoint de cadastro de usuários.
+- [x] Criar endpoint de login.
+- [x] Implementar hash de senhas utilizando Argon2.
+- [x] Implementar autenticação utilizando JWT.
+- [x] Proteger endpoints de criação, listagem e exclusão de planos.
+- [x] Proteger endpoint de geração de planos com inteligência artificial.
+- [x] Garantir que usuários acessem somente seus próprios planos.
+- [x] Implementar validação dos dados utilizando Pydantic.
+- [x] Implementar integração com a API do Google Gemini.
+- [x] Implementar tratamento de erros na integração com IA.
+- [x] Implementar CORS configurável por variável de ambiente.
+- [x] Configurar backend utilizando Docker.
+
+### Frontend
+
+- [x] Integrar frontend Next.js com a API FastAPI.
+- [x] Implementar formulário de cadastro.
+- [x] Implementar formulário de login.
+- [x] Implementar autenticação e envio de token JWT nas requisições.
+- [x] Implementar listagem de planos de aula do usuário autenticado.
+- [x] Implementar criação de planos de aula.
+- [x] Implementar exclusão de planos de aula.
+- [x] Implementar filtros por disciplina.
+- [x] Implementar geração de planos de aula utilizando IA.
+- [x] Preencher automaticamente os campos do formulário com os dados gerados pela IA.
+- [x] Implementar indicadores de carregamento durante operações.
+- [x] Implementar mensagens de sucesso e erro.
+- [x] Implementar tratamento de falhas de conexão com a API.
+- [x] Configurar URL da API utilizando variável de ambiente.
+- [x] Implementar botão para encerrar sessão.
+
+### Segurança
+
+- [x] Armazenar senhas utilizando hash, sem salvar senhas em texto puro.
+- [x] Implementar autenticação baseada em JWT.
+- [x] Exigir autenticação para operações protegidas.
+- [x] Impedir que usuários excluam planos pertencentes a outros usuários.
+- [ ] Implementar tratamento de sessão expirada no frontend.
+- [ ] Revisar configurações de segurança para o ambiente de produção.
+
+### Infraestrutura e configuração
+
+- [x] Configurar Docker para o backend.
+- [x] Configurar variáveis de ambiente para URL da API.
+- [x] Configurar variáveis de ambiente para CORS.
+- [x] Configurar arquivo `.env` para credenciais e configurações sensíveis.
+- [x] Implementar configuração para execução local.
+- [ ] Hospedar frontend em ambiente público.
+- [ ] Hospedar backend em ambiente público.
+- [ ] Configurar comunicação entre frontend e backend hospedados.
+- [ ] Validar aplicação em ambiente de produção.
+
+### Testes
+
+- [x] Testar cadastro de usuário.
+- [x] Testar login com credenciais válidas.
+- [x] Testar login com credenciais inválidas.
+- [x] Testar cadastro com e-mail já existente.
+- [x] Testar acesso a endpoints protegidos sem autenticação.
+- [x] Testar listagem de planos autenticada.
+- [x] Testar criação de planos.
+- [x] Testar exclusão de planos.
+- [x] Testar geração de planos utilizando IA.
+- [x] Testar indicadores de carregamento.
+- [x] Testar mensagens de erro no frontend.
+- [ ] Testar aplicação completa em ambiente hospedado.
+
+### Observações
+
+- A persistência dos dados ainda é realizada em memória.
+- Os dados são perdidos quando o backend é reiniciado.
+- A implementação da persistência utilizando banco de dados SQLModel está prevista para a Sprint 4.

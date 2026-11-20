@@ -50,3 +50,6 @@ backend/easter_egg/
 easter_egg/
 
 
+
+
+.env*

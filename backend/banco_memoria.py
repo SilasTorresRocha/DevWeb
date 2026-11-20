@@ -40,24 +40,103 @@ BANCO_PLANOS = [
     }
 ]
 
-def obter_todos_os_planos():
-    return BANCO_PLANOS
 
-def adicionar_plano(dados_plano: dict):
-    # Gera um novo ID baseado no maior ID existente
-    novo_id = max([p["id"] for p in BANCO_PLANOS], default=0) + 1
+def obter_todos_os_planos(usuario_id: int):
+    """Retorna os planos públicos e os pertencentes ao usuário."""
+    return [
+        plano for plano in BANCO_PLANOS
+        if plano.get("usuario_id") is None
+        or plano.get("usuario_id") == usuario_id
+    ]
+
+
+def adicionar_plano(dados_plano: dict, usuario_id: int):
+    """Adiciona um plano vinculado ao usuário autenticado."""
+    novo_id = max(
+        [p["id"] for p in BANCO_PLANOS],
+        default=0
+    ) + 1
+
     plano_completo = {
         **dados_plano,
         "id": novo_id,
+        "usuario_id": usuario_id,
         "criado_por_ia": dados_plano.get("criado_por_ia", False),
         "data_criacao": datetime.now().strftime("%d/%m/%Y")
     }
+
     BANCO_PLANOS.insert(0, plano_completo)
+
     return plano_completo
 
-def excluir_plano_por_id(plano_id: int):
-    global BANCO_PLANOS
-    tamanho_antes = len(BANCO_PLANOS)
-    BANCO_PLANOS = [p for p in BANCO_PLANOS if p["id"] != plano_id]
-    return len(BANCO_PLANOS) < tamanho_antes
 
+def excluir_plano_por_id(plano_id: int, usuario_id: int):
+    """Exclui somente um plano pertencente ao usuário."""
+    global BANCO_PLANOS
+
+    for indice, plano in enumerate(BANCO_PLANOS):
+        if (
+            plano["id"] == plano_id
+            and plano.get("usuario_id") == usuario_id
+        ):
+            BANCO_PLANOS.pop(indice)
+            return True
+
+    return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ==========================================
+# Armazenamento temporário de usuários
+# ==========================================
+
+BANCO_USUARIOS = []
+
+
+def obter_usuario_por_email(email: str):
+    """Busca um usuário pelo e-mail."""
+    email = email.strip().lower()
+
+    for usuario in BANCO_USUARIOS:
+        if usuario["email"] == email:
+            return usuario
+
+    return None
+
+
+def obter_usuario_por_id(usuario_id: int):
+    """Busca um usuário pelo ID."""
+    for usuario in BANCO_USUARIOS:
+        if usuario["id"] == usuario_id:
+            return usuario
+
+    return None
+
+
+def adicionar_usuario(dados_usuario: dict):
+    """Adiciona um novo usuário ao armazenamento."""
+    novo_id = max(
+        [usuario["id"] for usuario in BANCO_USUARIOS],
+        default=0
+    ) + 1
+
+    novo_usuario = {
+        **dados_usuario,
+        "id": novo_id
+    }
+
+    BANCO_USUARIOS.append(novo_usuario)
+
+    return novo_usuario

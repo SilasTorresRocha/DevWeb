@@ -1,87 +1,232 @@
+
 'use client';
 
 import { useState } from 'react';
+
+import FormularioLogin from '../componentes/FormularioLogin';
 import FormularioPlano from '../componentes/FormularioPlano';
 import ListaPlanos from '../componentes/ListaPlanos';
-import { planosIniciais } from '../dados/planosIniciais';
 
-// Componente Pai Principal (mantém o Estado da UI)
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function PaginaPrincipal() {
-  // Estado que armazena a lista de planos de aula
-  const [planos, setPlanos] = useState(planosIniciais);
+  const [token, setToken] = useState('');
+  const [usuario, setUsuario] = useState(null);
 
-  // Estado que armazena o filtro de disciplina
+  const [planos, setPlanos] = useState([]);
   const [filtro, setFiltro] = useState('Todas');
 
-  // Estado para feedback visual simples
   const [mensagemSucesso, setMensagemSucesso] = useState('');
+  const [erroApi, setErroApi] = useState('');
 
-  // Função que adiciona um novo plano (passada via props para o FormularioPlano)
-  function handleAdicionarPlano(novoPlano) {
-    // Atualiza o estado adicionando o novo plano no início da lista
-    setPlanos([novoPlano, ...planos]);
-    
-    // Dispara o feedback visual
-    setMensagemSucesso('Plano de aula adicionado com sucesso!');
-    setTimeout(() => setMensagemSucesso(''), 4000);
+  const [carregandoPlanos, setCarregandoPlanos] = useState(false);
+  const [salvandoPlano, setSalvandoPlano] = useState(false);
+  const [excluindoId, setExcluindoId] = useState(null);
+
+  // Converte o formato da API para o formato utilizado pelos componentes.
+  function mapearPlano(plano) {
+    return {
+      ...plano,
+      habilidadeBncc: plano.habilidade_bncc
+    };
   }
 
-  // Função que remove um plano (passada via props para o ListaPlanos)
-  function handleExcluirPlano(idParaRemover) {
-    setPlanos(planos.filter((plano) => plano.id !== idParaRemover));
+  // Busca os planos pertencentes ao usuário autenticado.
+  async function buscarPlanos(tokenAcesso) {
+    setCarregandoPlanos(true);
+    setErroApi('');
+
+    try {
+      const resposta = await fetch(`${API_URL}/api/planos/`, {
+        headers: {
+          Authorization: `Bearer ${tokenAcesso}`
+        }
+      });
+
+      if (!resposta.ok) {
+        throw new Error('Não foi possível carregar os planos.');
+      }
+
+      const dados = await resposta.json();
+      setPlanos(dados.map(mapearPlano));
+    } catch (erro) {
+      setErroApi(erro.message || 'Erro ao carregar os planos.');
+    } finally {
+      setCarregandoPlanos(false);
+    }
+  }
+
+  // Executada quando o login é realizado com sucesso.
+  async function handleEntrar(dados) {
+    setToken(dados.access_token);
+    setUsuario(dados.usuario);
+    setMensagemSucesso('Login realizado com sucesso!');
+
+    await buscarPlanos(dados.access_token);
+  }
+
+  // Envia um novo plano para a API.
+  async function handleAdicionarPlano(novoPlano) {
+    setSalvandoPlano(true);
+    setErroApi('');
+
+    try {
+      const resposta = await fetch(`${API_URL}/api/planos/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          titulo: novoPlano.titulo,
+          disciplina: novoPlano.disciplina,
+          ano: novoPlano.ano,
+          habilidade_bncc: novoPlano.habilidadeBncc,
+          objetivo: novoPlano.objetivo,
+          metodologia: novoPlano.metodologia,
+          criado_por_ia: false
+        })
+      });
+
+      const dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(dados.detail || 'Não foi possível salvar o plano.');
+      }
+
+      setPlanos((atuais) => [mapearPlano(dados), ...atuais]);
+      setMensagemSucesso('Plano de aula salvo com sucesso!');
+      return true;
+    } catch (erro) {
+      setErroApi(erro.message || 'Erro ao salvar o plano.');
+      return false;
+    } finally {
+      setSalvandoPlano(false);
+    }
+  }
+
+  // Exclui um plano na API.
+async function handleExcluirPlano(idParaRemover) {
+  setExcluindoId(idParaRemover);
+  setErroApi('');
+  setMensagemSucesso('');
+
+  try {
+    const resposta = await fetch(
+      `${API_URL}/api/planos/${idParaRemover}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (!resposta.ok) {
+      throw new Error('Não foi possível excluir o plano.');
+    }
+
+    setPlanos((atuais) =>
+      atuais.filter((plano) => plano.id !== idParaRemover)
+    );
+
     setMensagemSucesso('Plano removido com sucesso!');
-    setTimeout(() => setMensagemSucesso(''), 4000);
+  } catch (erro) {
+    setErroApi(erro.message || 'Erro ao excluir o plano.');
+  } finally {
+  await new Promise((resolver) => setTimeout(resolver, 500));
+  setExcluindoId(null);
+}
+}
+
+  // Encerra a sessão atual.
+  function handleSair() {
+    setToken('');
+    setUsuario(null);
+    setPlanos([]);
+    setMensagemSucesso('');
+    setErroApi('');
+  }
+
+  // Sem token, apresenta somente a tela de login.
+  if (!token) {
+    return <FormularioLogin aoEntrar={handleEntrar} />;
   }
 
   return (
     <div>
-      {/* Barra de Navegação Simples (Bootstrap) */}
       <nav className="navbar navbar-dark bg-primary shadow-sm mb-4">
         <div className="container">
           <span className="navbar-brand fw-bold fs-4">
             PlanoFácil
           </span>
-          <span className="navbar-text text-white small">
-            Apoio ao Planejamento Docente com IA
-          </span>
+
+          <div className="d-flex align-items-center gap-3">
+            <span className="navbar-text text-white small">
+              Olá, {usuario?.nome}
+            </span>
+
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-light"
+              onClick={handleSair}
+            >
+              Sair
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Conteúdo da Página */}
       <div className="container pb-5">
-        
-        {/* Feedback Visual (Alert do Bootstrap) */}
+
         {mensagemSucesso && (
-          <div className="alert alert-success alert-dismissible fade show" role="alert">
+          <div className="alert alert-success" role="alert">
             {mensagemSucesso}
             <button
               type="button"
-              className="btn-close"
+              className="btn-close float-end"
               onClick={() => setMensagemSucesso('')}
               aria-label="Fechar"
-            ></button>
+            />
           </div>
         )}
 
-        {/* Grid com 2 colunas: Formulário à esquerda e Lista à direita */}
-        <div className="row">
-          
-          {/* Coluna 1: Formulário (Componente Filho) */}
-          <div className="col-lg-5">
-            <FormularioPlano aoAdicionarPlano={handleAdicionarPlano} />
+        {erroApi && (
+          <div className="alert alert-danger" role="alert">
+            {erroApi}
           </div>
+        )}
 
-          {/* Coluna 2: Listagem (Componente Filho) */}
-          <div className="col-lg-7">
-            <ListaPlanos
-              planos={planos}
-              aoExcluirPlano={handleExcluirPlano}
-              filtro={filtro}
-              aoMudarFiltro={setFiltro}
-            />
+        {carregandoPlanos ? (
+          <div className="text-center py-5">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Carregando...</span>
+            </div>
+            <p className="text-muted mt-2">Carregando seus planos...</p>
           </div>
+        ) : (
+          <div className="row">
 
-        </div>
+            <div className="col-lg-5">
+              <FormularioPlano
+                aoAdicionarPlano={handleAdicionarPlano}
+                token={token}
+                carregando={salvandoPlano}
+              />
+            </div>
+
+            <div className="col-lg-7">
+              <ListaPlanos
+                planos={planos}
+                aoExcluirPlano={handleExcluirPlano}
+                filtro={filtro}
+                aoMudarFiltro={setFiltro}
+                excluindoId={excluindoId}
+              />
+            </div>
+
+          </div>
+        )}
       </div>
     </div>
   );
