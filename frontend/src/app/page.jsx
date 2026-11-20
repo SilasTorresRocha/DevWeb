@@ -23,6 +23,15 @@ export default function PaginaPrincipal() {
   const [salvandoPlano, setSalvandoPlano] = useState(false);
   const [excluindoId, setExcluindoId] = useState(null);
 
+
+
+  function tratarSessaoExpirada() {
+    setToken('');
+    setUsuario(null);
+    setPlanos([]);
+    setMensagemSucesso('');
+    setErroApi('Sua sessão expirou. Faça login novamente.');
+  }
   // Converte o formato da API para o formato utilizado pelos componentes.
   function mapearPlano(plano) {
     return {
@@ -43,10 +52,14 @@ export default function PaginaPrincipal() {
         }
       });
 
+      if (resposta.status === 401) {
+        tratarSessaoExpirada();
+        return;
+      }
+
       if (!resposta.ok) {
         throw new Error('Não foi possível carregar os planos.');
       }
-
       const dados = await resposta.json();
       setPlanos(dados.map(mapearPlano));
     } catch (erro) {
@@ -90,6 +103,11 @@ export default function PaginaPrincipal() {
 
       const dados = await resposta.json();
 
+      if (resposta.status === 401) {
+        tratarSessaoExpirada();
+        return false;
+      }
+
       if (!resposta.ok) {
         throw new Error(dados.detail || 'Não foi possível salvar o plano.');
       }
@@ -121,6 +139,10 @@ async function handleExcluirPlano(idParaRemover) {
         }
       }
     );
+    if (resposta.status === 401) {
+      tratarSessaoExpirada();
+      return;
+    }
 
     if (!resposta.ok) {
       throw new Error('Não foi possível excluir o plano.');

@@ -38,8 +38,18 @@ console.log('URL da requisição:', `${API_URL}${endpoint}`);
       const dados = await resposta.json().catch(() => ({}));
 
       if (!resposta.ok) {
+        let mensagemErro;
+
+        if (Array.isArray(dados.detail)) {
+          mensagemErro = dados.detail
+            .map((erro) => erro.msg)
+            .join('. ');
+        } else {
+          mensagemErro = dados.detail;
+        }
+
         throw new Error(
-          dados.detail || 'Não foi possível realizar a operação. Tente novamente.'
+          mensagemErro || 'Não foi possível realizar a operação.'
         );
       }
 
