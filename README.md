@@ -2,22 +2,22 @@
 
 Projeto desenvolvido para a disciplina de **Desenvolvimento de Aplicações Web (DWCO8A)** da **UTFPR - Campus Apucarana**, ministrada pelo **Prof. Luiz Rodrigues**, integrando a proposta de extensão de IA para Apoio de Professores da Educação Básica.
 
----
-
 > O **PlanoFácil** é uma aplicação web desenvolvida para apoiar professores da Educação Básica na elaboração ágil de planos de aula alinhados à Base Nacional Comum Curricular (BNCC). Diante da fragmentação de informações e da sobrecarga de tarefas administrativas e burocráticas no cotidiano escolar, a plataforma centraliza a criação, visualização e organização dos planejamentos didáticos em um único ambiente. O sistema tem como público-alvo professores do ensino fundamental e médio das redes públicas e privadas. O papel da Inteligência Artificial no fluxo do usuário será atuar como um copiloto pedagógico: a partir do tema da aula e do ano escolar informados pelo docente, a IA sugere automaticamente habilidades curriculares pertinentes, objetivos de aprendizagem e um roteiro estruturado de atividades para a duração da aula, reduzindo drasticamente o tempo gasto no trabalho braçal de planejamento.
 
 ---
 
 ## 🛠️ Stack Tecnológica
 
-* **Frontend (Sprint 1):** Next.js (apenas como frontend), React, Bootstrap 5
-* **Backend (Sprint 2):** Python 3.10+, FastAPI, Pydantic, HTTPX
-* **Inteligência Artificial:** Google Gemini (Gemini 1.5 Flash via REST) com Cache e Fallback
-* **Containerização:** Docker & Docker Compose
+- **Frontend:** Next.js, React, Bootstrap 5
+- **Backend:** Python 3.10+, FastAPI, Pydantic, HTTPX
+- **Inteligência Artificial:** Google Gemini via REST, com cache e fallback
+- **Autenticação:** JWT e hash de senhas com Argon2
+- **Containerização:** Docker e Docker Compose
+- **Hospedagem:** Vercel (frontend) e Render (backend)
 
 ---
 
-## 🚀 Como Executar o Backend (Sprint 2)
+## 🚀 Como Executar o Backend
 
 ### Opção 1: Com Docker (Recomendado)
 
@@ -29,202 +29,121 @@ docker-compose up -d --build backend
 
 A API estará disponível em:
 
-* Documentação Swagger Interativa: [http://localhost:8000/docs](http://localhost:8000/docs)
-* Rota de Status: [http://localhost:8000/](http://localhost:8000/)
+- Documentação Swagger Interativa: http://localhost:8000/docs
+- Rota de Status: http://localhost:8000/
 
 ### Opção 2: Localmente com Python
 
 1. Acesse a pasta do backend:
+
    ```bash
    cd backend
    ```
+
 2. Instale as dependências:
+
    ```bash
    pip install -r requirements.txt
    ```
+
 3. Inicie o servidor:
+
    ```bash
    uvicorn main:app --reload --port 8000
    ```
 
 ---
 
-## 📁 Estrutura Modular do Backend
+## 📁 Estrutura do Projeto
 
-O backend foi estruturado em módulos independentes com nomenclatura em português, alinhado aos conceitos de APIs RESTful e FastAPI ensinados em aula:
+A estrutura abaixo destaca os principais arquivos e módulos da aplicação, incluindo as alterações realizadas durante a Sprint 3.
 
 ```text
-backend/
-├── Dockerfile                   # Container Docker para execução isolada
-├── requirements.txt             # Dependências da aplicação (FastAPI, Pydantic, HTTPX)
-├── .env                         # Variáveis de ambiente e chave de API (ignorado pelo Git)
-├── .env.exemplo                 # Exemplo de configuração para o repositório
-├── main.py                      # Ponto de entrada FastAPI com CORS e Swagger em /docs
-├── banco_memoria.py             # Dados em memória para a Sprint 2 (conforme especificação)
-├── esquemas/
-│   └── plano.py                 # Modelos Pydantic de validação (entradas e saídas)
-├── rotas/
-│   ├── planos.py                # Endpoints CRUD dos planos de aula (/api/planos)
-│   └── inteligencia.py          # Endpoint de geração com IA (/api/ia/gerar-plano)
-└── servicos/
-    └── servico_ia.py            # Integração com Gemini, cache e plano de contingência anti-falha
+DevWeb/
+├── backend/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── .env                  # Variáveis locais (não versionadas)
+│   ├── .env.exemplo
+│   ├── main.py               # Inicialização da API, CORS e Swagger
+│   ├── banco_memoria.py      # Armazenamento em memória
+│   ├── esquemas/
+│   │   ├── plano.py          # Modelos Pydantic de planos
+│   │   └── usuario.py        # Modelos Pydantic de usuários
+│   ├── rotas/
+│   │   ├── autenticacao.py   # Cadastro e login
+│   │   ├── planos.py         # CRUD de planos
+│   │   └── inteligencia.py    # Endpoint de geração por IA
+│   ├── seguranca.py          # Hash de senha, JWT e autenticação
+│   └── servicos/
+│       └── servico_ia.py     # Integração com Gemini, cache e fallback
+│
+├── frontend/
+│   ├── Dockerfile
+│   ├── next.config.js
+│   ├── package.json
+│   └── src/
+│       ├── app/
+│       │   ├── globals.css   # Estilos globais
+│       │   ├── layout.jsx    # Layout da aplicação
+│       │   └── page.jsx      # Página principal e fluxo da aplicação
+│       ├── componentes/
+│       │   ├── FormularioLogin.jsx  # Cadastro/login
+│       │   ├── FormularioPlano.jsx  # Formulário de planos
+│       │   └── ListaPlanos.jsx      # Listagem e ações dos planos
+│       └── dados/
+│           └── planosIniciais.js    # Dados iniciais da versão Sprint 1
+│
+├── docker-compose.yml
+└── README.md
 ```
+
+> **Observação:** a árvore representa os principais arquivos conhecidos durante a documentação. Antes da entrega final, confira no repositório se algum arquivo foi criado, renomeado ou removido durante a Sprint 3, especialmente no frontend. O arquivo `planosIniciais.js` pertence à estrutura inicial; a aplicação da Sprint 3 deve utilizar os dados retornados pela API real.
 
 ---
 
 ## 🎯 Entregáveis e Critérios Atendidos (Sprint 2)
 
-* [X] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
-* [X] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
-* [X] **Modelos Pydantic alinhados ao Frontend:** Validação  dos dados de planos e requisições da IA.
-* [X] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
-* [X] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
-* [X] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
+- [X] API acessível por URL pública com documentação em `/docs`.
+- [X] Código organizado em módulos: rotas, esquemas, serviços e banco em memória.
+- [X] Modelos Pydantic alinhados ao frontend.
+- [X] Códigos HTTP e mensagens adequadas (`200 OK`, `201 Created`, `204 No Content` e `404 Not Found`).
+- [X] IA integrada ao fluxo docente, sugerindo habilidades BNCC e metodologia a partir do tema e ano escolar.
+- [X] Credenciais protegidas fora do repositório, com uso de `.env` e `.env.exemplo`.
 
 ---
 
-## 🚀 Como Executar o Backend (Sprint 2)
-
-### Opção 1: Com Docker (Recomendado)
-
-Na raiz do projeto, execute:
-
-```bash
-docker-compose up -d --build backend
-```
-
-A API estará disponível em:
-
-* Documentação Swagger Interativa: [http://localhost:8000/docs](http://localhost:8000/docs)
-* Rota de Status: [http://localhost:8000/](http://localhost:8000/)
-
-### Opção 2: Localmente com Python
-
-1. Acesse a pasta do backend:
-   ```bash
-   cd backend
-   ```
-2. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Inicie o servidor:
-   ```bash
-   uvicorn main:app --reload --port 8000
-   ```
-
----
-
-## 📁 Estrutura Modular do Backend
-
-O backend foi estruturado em módulos independentes com nomenclatura em português, alinhado aos conceitos de APIs RESTful e FastAPI ensinados em aula:
-
-```text
-backend/
-├── Dockerfile                   # Container Docker para execução isolada
-├── requirements.txt             # Dependências da aplicação (FastAPI, Pydantic, HTTPX)
-├── .env                         # Variáveis de ambiente e chave de API (ignorado pelo Git)
-├── .env.exemplo                 # Exemplo de configuração para o repositório
-├── main.py                      # Ponto de entrada FastAPI com CORS e Swagger em /docs
-├── banco_memoria.py             # Dados em memória para a Sprint 2 (conforme especificação)
-├── esquemas/
-│   └── plano.py                 # Modelos Pydantic de validação (entradas e saídas)
-├── rotas/
-│   ├── planos.py                # Endpoints CRUD dos planos de aula (/api/planos)
-│   └── inteligencia.py          # Endpoint de geração com IA (/api/ia/gerar-plano)
-└── servicos/
-    └── servico_ia.py            # Integração com Gemini, cache e plano de contingência anti-falha
-```
-
----
-
-## 🎯 Entregáveis e Critérios Atendidos (Sprint 2)
-
-* [X] **API acessível por URL pública com documentação em `/docs`:** Swagger interativo completo.
-* [X] **Código organizado em módulos:** Separação limpa entre rotas, esquemas, serviços e banco em memória.
-* [X] **Modelos Pydantic alinhados ao Frontend:** Validação rigorosa dos dados de planos e requisições da IA.
-* [X] **Códigos HTTP e mensagens adequadas:** `200 OK`, `201 Created`, `204 No Content` e `404 Not Found`.
-* [X] **IA com papel real no fluxo docente:** Sugestão de habilidades BNCC e metodologia de aula a partir de tema e ano escolar.
-* [X] **Credenciais protegidas fora do repositório:** Uso de `.env` com arquivo `.env.exemplo` de referência.
-
----
-
-## Sprint 3 — Autenticação, Integração com API e Inteligência Artificial
+## Sprint 3 — Hospedagem e Integração com API
 
 **Período:** 16/11/2026 a 23/11/2026
 
-### Backend
+**Foco:** aplicação web hospedada e integrada à API real, sem dados mockados.
 
-- [X] Implementar API com FastAPI.
-- [X] Criar endpoint de cadastro de usuários.
-- [X] Criar endpoint de login.
-- [X] Implementar hash de senhas utilizando Argon2.
-- [X] Implementar autenticação utilizando JWT.
-- [X] Proteger endpoints de criação, listagem e exclusão de planos.
-- [X] Proteger endpoint de geração de planos com inteligência artificial.
-- [X] Garantir que usuários acessem somente seus próprios planos.
-- [X] Implementar validação dos dados utilizando Pydantic.
-- [X] Implementar integração com a API do Google Gemini.
-- [X] Implementar tratamento de erros na integração com IA.
-- [X] Implementar CORS configurável por variável de ambiente.
-- [X] Configurar backend utilizando Docker.
+### Configurações e escolhas importantes
 
-### Frontend
+- **Frontend:** hospedado na Vercel, com o diretório raiz configurado como `frontend`.
+- **Backend:** hospedado no Render, utilizando Docker e o diretório `backend`.
+- **URL da API:** configurada no frontend por meio da variável de ambiente `NEXT_PUBLIC_API_URL`.
+- **CORS:** configurado no backend por meio da variável `FRONTEND_URL`, incluindo a URL pública da Vercel e as origens locais utilizadas no desenvolvimento.
+- **Porta do backend:** o Dockerfile utiliza a variável `PORT` disponibilizada pela hospedagem, com `8000` como valor padrão.
+- **Credenciais:** `GEMINI_API_KEY` e `SECRET_KEY` configuradas como variáveis de ambiente no Render, sem serem incluídas no repositório.
 
-- [X] Integrar frontend Next.js com a API FastAPI.
-- [X] Implementar formulário de cadastro.
-- [X] Implementar formulário de login.
-- [X] Implementar autenticação e envio de token JWT nas requisições.
-- [X] Implementar listagem de planos de aula do usuário autenticado.
-- [X] Implementar criação de planos de aula.
-- [X] Implementar exclusão de planos de aula.
-- [X] Implementar filtros por disciplina.
-- [X] Implementar geração de planos de aula utilizando IA.
-- [X] Preencher automaticamente os campos do formulário com os dados gerados pela IA.
-- [X] Implementar indicadores de carregamento durante operações.
-- [X] Implementar mensagens de sucesso e erro.
-- [X] Implementar tratamento de falhas de conexão com a API.
-- [X] Configurar URL da API utilizando variável de ambiente.
-- [X] Implementar botão para encerrar sessão.
+### Requisitos da Sprint
 
-### Segurança
+- [X] Site acessível por URL pública, consumindo a API real hospedada.
+- [X] Login funcional, com token JWT enviado nas requisições protegidas.
+- [X] JWT protegendo endpoints de escrita e dados sensíveis.
+- [X] Estados de carregamento e de erro tratados na interface.
+- [X] URL da API e CORS configurados por variáveis de ambiente.
+- [X] Fluxo de geração de planos utilizando a funcionalidade de IA integrado e testado em ambiente hospedado.
+- [X] Aplicação testada em produção, incluindo cadastro, login, criação, listagem, exclusão e geração de planos por IA.
 
-- [X] Armazenar senhas utilizando hash, sem salvar senhas em texto puro.
-- [X] Implementar autenticação baseada em JWT.
-- [X] Exigir autenticação para operações protegidas.
-- [X] Impedir que usuários excluam planos pertencentes a outros usuários.
-- [X] Implementar tratamento de sessão expirada no frontend.
-- [ ] Revisar configurações de segurança para o ambiente de produção.
+### Hospedagem
 
-### Infraestrutura e configuração
+- **Frontend (Vercel):** [https://dev-web-delta.vercel.app]
+- **Backend (Render):** [https://planofacil-backend.onrender.com]
+- **Documentação da API:** disponível na rota `/docs` do backend hospedado.
 
-- [X] Configurar Docker para o backend.
-- [X] Configurar variáveis de ambiente para URL da API.
-- [X] Configurar variáveis de ambiente para CORS.
-- [X] Configurar arquivo `.env` para credenciais e configurações sensíveis.
-- [X] Implementar configuração para execução local.
-- [X] Hospedar frontend em ambiente público.
-- [X] Hospedar backend em ambiente público.
-- [X] Configurar comunicação entre frontend e backend hospedados.
-- [ ] Validar aplicação em ambiente de produção.
+### Observação
 
-### Testes
-
-- [X] Testar cadastro de usuário.
-- [X] Testar login com credenciais válidas.
-- [X] Testar login com credenciais inválidas.
-- [X] Testar cadastro com e-mail já existente.
-- [X] Testar acesso a endpoints protegidos sem autenticação.
-- [X] Testar listagem de planos autenticada.
-- [X] Testar criação de planos.
-- [X] Testar exclusão de planos.
-- [X] Testar geração de planos utilizando IA.
-- [X] Testar indicadores de carregamento.
-- [X] Testar mensagens de erro no frontend.
-- [ ] Testar aplicação completa em ambiente hospedado.
-
-### Observações
-
-- A persistência dos dados ainda é realizada em memória.
-- Os dados são perdidos quando o backend é reiniciado.
-- A implementação da persistência utilizando banco de dados SQLModel está prevista para a Sprint 4.
+A persistência dos dados ainda é realizada em memória. Os dados são perdidos quando o backend é reiniciado. A implementação de persistência utilizando banco de dados SQLModel está prevista para a Sprint 4.
