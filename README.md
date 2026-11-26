@@ -147,3 +147,109 @@ DevWeb/
 ### Observação
 
 A persistência dos dados ainda é realizada em memória. Os dados são perdidos quando o backend é reiniciado. A implementação de persistência utilizando banco de dados SQLModel está prevista para a Sprint 4.
+
+## Sprint 4 — Banco de Dados e Manual do Usuário
+
+**Período:** 24/11/2026 a 30/11/2026
+
+**Foco:** implementação de persistência real utilizando SQLModel, conclusão do sistema em produção e elaboração do manual do usuário.
+
+### Checklist de desenvolvimento
+
+#### 1. Preparação do banco de dados
+
+- [ ] Escolher e configurar um banco de dados compatível com SQLModel (PostgreSQL recomendado para produção).
+- [ ] Criar uma instância de banco de dados hospedada (Neon, Supabase ou Render).
+- [ ] Obter a URL de conexão com o banco de dados.
+- [ ] Configurar a URL de conexão por meio de variável de ambiente.
+- [ ] Atualizar as dependências do backend para incluir SQLModel e o driver do banco escolhido.
+- [ ] Configurar a conexão e o gerenciamento de sessões do banco de dados.
+
+#### 2. Implementação dos modelos SQLModel
+
+- [ ] Identificar as entidades existentes no sistema e seus atributos.
+- [ ] Criar os modelos SQLModel correspondentes às entidades.
+- [ ] Definir corretamente os tipos dos atributos e as chaves primárias.
+- [ ] Definir os relacionamentos entre usuários e planos.
+- [ ] Configurar as chaves estrangeiras e os relacionamentos necessários.
+- [ ] Implementar a criação das tabelas no banco de dados.
+- [ ] Verificar se os modelos estão coerentes com os schemas Pydantic utilizados pela API.
+
+#### 3. Integração da API com o banco de dados
+
+- [ ] Substituir o armazenamento em memória pela persistência no banco de dados.
+- [ ] Adaptar o cadastro de usuários para salvar os registros no banco.
+- [ ] Adaptar o login para consultar os usuários armazenados no banco.
+- [ ] Manter a validação de senhas com Argon2 e a autenticação JWT.
+- [ ] Adaptar a criação de planos para persistir os dados no banco.
+- [ ] Adaptar a listagem de planos para consultar os registros do banco.
+- [ ] Adaptar a exclusão de planos para remover os registros correspondentes.
+- [ ] Garantir que cada usuário tenha acesso somente aos seus próprios planos.
+- [ ] Preservar os códigos HTTP e as mensagens de erro adequados.
+- [ ] Garantir que a geração por IA continue integrada ao fluxo de criação de planos.
+
+#### 4. Testes de persistência e integração
+
+- [ ] Testar o cadastro de usuários.
+- [ ] Testar o login e a autenticação após o cadastro.
+- [ ] Testar a criação, listagem e exclusão de planos.
+- [ ] Verificar o isolamento dos dados entre diferentes usuários.
+- [ ] Reiniciar a API e verificar se os dados continuam disponíveis.
+- [ ] Reiniciar o serviço de hospedagem e verificar a persistência dos registros.
+- [ ] Testar novamente a geração de planos por IA.
+- [ ] Verificar se os principais fluxos funcionam sem erros críticos.
+
+#### 5. Atualização da hospedagem
+
+- [ ] Configurar a variável de ambiente da conexão com o banco no Render.
+- [ ] Garantir que a API hospedada utilize o banco de dados de produção.
+- [ ] Atualizar o backend hospedado com as alterações da Sprint 4.
+- [ ] Verificar os logs da aplicação e corrigir eventuais erros.
+- [ ] Testar o sistema completo utilizando o frontend da Vercel e a API do Render.
+- [ ] Confirmar que os dados permanecem salvos após reinicializações.
+
+#### 6. Manual do usuário
+
+- [ ] Elaborar um manual voltado ao usuário final, sem exigir conhecimentos técnicos.
+- [ ] Apresentar o objetivo e as funcionalidades do PlanoFácil.
+- [ ] Documentar o processo de cadastro e login.
+- [ ] Explicar como criar um plano de aula.
+- [ ] Explicar como utilizar a funcionalidade de geração por IA.
+- [ ] Mostrar como visualizar e organizar os planos criados.
+- [ ] Explicar como excluir um plano.
+- [ ] Adicionar capturas de tela para facilitar a compreensão.
+- [ ] Revisar a clareza das instruções e gerar o documento em PDF.
+
+#### 7. Finalização e entrega
+
+- [ ] Revisar o README e atualizar a estrutura do projeto.
+- [ ] Atualizar as instruções de instalação e execução do frontend e backend.
+- [ ] Conferir as variáveis de ambiente necessárias e o arquivo `.env.exemplo`.
+- [ ] Verificar se não existem credenciais ou informações sensíveis no repositório.
+- [ ] Conferir o histórico de commits no GitHub.
+- [ ] Gerar a documentação do projeto em PDF.
+- [ ] Finalizar o manual do usuário em PDF.
+- [ ] Preparar o código em ZIP contendo as pastas `frontend/` e `backend/`.
+- [ ] Conferir se o repositório Git está público e atualizado.
+- [ ] Preparar o pitch de até 2 minutos, focado no usuário final.
+
+### Critérios de conclusão da Sprint 4
+
+- [ ] Modelos SQLModel coerentes com as entidades, incluindo tipos e relacionamentos corretos.
+- [ ] Dados mantidos após reiniciar a API.
+- [ ] Sistema hospedado utilizando banco de dados persistente.
+- [ ] Fluxo principal funcionando sem erros críticos em produção.
+- [ ] Manual do usuário claro e focado nos principais fluxos.
+- [ ] Pitch de até 2 minutos preparado e demonstrando o sistema.
+
+### Entrega Final — 30/11/2026
+
+A entrega final será composta por três arquivos:
+
+1. **Documentação (PDF):** definição da equipe, descrição do sistema e README do projeto.
+2. **Manual do usuário (PDF):** guia de utilização voltado ao usuário final.
+3. **Código (ZIP):** contendo as pastas `frontend/` e `backend/`.
+
+O repositório Git deverá permanecer público, com o link informado na documentação.
+
+**Resultado esperado:** PlanoFácil completamente funcional em produção, com autenticação, geração de planos por IA e persistência real em banco de dados, acompanhado de documentação técnica e manual de utilização.
