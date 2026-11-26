@@ -3,6 +3,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+from contextlib import asynccontextmanager
+from banco_dados import criar_tabelas
+
+
+
 diretorio_backend = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(diretorio_backend, ".env"))
 load_dotenv(os.path.join(os.path.dirname(diretorio_backend), ".env"))
@@ -17,9 +22,16 @@ from rotas.autenticacao import roteador as roteador_autenticacao
 
 VERSAO_API = "1.2.0"
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("[BANCO] Verificando e criando tabelas...", flush=True)
+    criar_tabelas()
+    print("[BANCO] Tabelas verificadas com sucesso!", flush=True)
+    yield
 app = FastAPI(
     title="PlanoFácil",
-    version=VERSAO_API
+    version=VERSAO_API,
+    lifespan=lifespan
 )
 
 # Obtém as origens permitidas a partir da variável de ambiente
