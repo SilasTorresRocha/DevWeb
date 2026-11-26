@@ -39,13 +39,11 @@ A API estará disponível em:
    ```bash
    cd backend
    ```
-
 2. Instale as dependências:
 
    ```bash
    pip install -r requirements.txt
    ```
-
 3. Inicie o servidor:
 
    ```bash
@@ -158,34 +156,34 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 #### 1. Preparação do banco de dados
 
-- [ ] Escolher e configurar um banco de dados compatível com SQLModel (PostgreSQL recomendado para produção).
-- [ ] Criar uma instância de banco de dados hospedada (Neon, Supabase ou Render).
-- [ ] Obter a URL de conexão com o banco de dados.
-- [ ] Configurar a URL de conexão por meio de variável de ambiente.
-- [ ] Atualizar as dependências do backend para incluir SQLModel e o driver do banco escolhido.
+- [X] Escolher e configurar um banco de dados compatível com SQLModel (PostgreSQL recomendado para produção).
+- [X] Criar uma instância de banco de dados hospedada (Neon, Supabase ou Render).
+- [X] Obter a URL de conexão com o banco de dados.
+- [X] Configurar a URL de conexão por meio de variável de ambiente.
+- [X] Atualizar as dependências do backend para incluir SQLModel e o driver do banco escolhido.
 - [ ] Configurar a conexão e o gerenciamento de sessões do banco de dados.
 
 #### 2. Implementação dos modelos SQLModel
 
-- [ ] Identificar as entidades existentes no sistema e seus atributos.
-- [ ] Criar os modelos SQLModel correspondentes às entidades.
-- [ ] Definir corretamente os tipos dos atributos e as chaves primárias.
-- [ ] Definir os relacionamentos entre usuários e planos.
-- [ ] Configurar as chaves estrangeiras e os relacionamentos necessários.
-- [ ] Implementar a criação das tabelas no banco de dados.
+- [X] Identificar as entidades existentes no sistema e seus atributos.
+- [X] Criar os modelos SQLModel correspondentes às entidades.
+- [X] Definir corretamente os tipos dos atributos e as chaves primárias.
+- [X] Definir os relacionamentos entre usuários e planos.
+- [X] Configurar as chaves estrangeiras e os relacionamentos necessários.
+- [X] Implementar a criação das tabelas no banco de dados.
 - [ ] Verificar se os modelos estão coerentes com os schemas Pydantic utilizados pela API.
 
 #### 3. Integração da API com o banco de dados
 
-- [ ] Substituir o armazenamento em memória pela persistência no banco de dados.
-- [ ] Adaptar o cadastro de usuários para salvar os registros no banco.
-- [ ] Adaptar o login para consultar os usuários armazenados no banco.
-- [ ] Manter a validação de senhas com Argon2 e a autenticação JWT.
-- [ ] Adaptar a criação de planos para persistir os dados no banco.
-- [ ] Adaptar a listagem de planos para consultar os registros do banco.
-- [ ] Adaptar a exclusão de planos para remover os registros correspondentes.
-- [ ] Garantir que cada usuário tenha acesso somente aos seus próprios planos.
-- [ ] Preservar os códigos HTTP e as mensagens de erro adequados.
+- [X] Substituir o armazenamento em memória pela persistência no banco de dados.
+- [X] Adaptar o cadastro de usuários para salvar os registros no banco.
+- [X] Adaptar o login para consultar os usuários armazenados no banco.
+- [X] Manter a validação de senhas com Argon2 e a autenticação JWT.
+- [X] Adaptar a criação de planos para persistir os dados no banco.
+- [X] Adaptar a listagem de planos para consultar os registros do banco.
+- [X] Adaptar a exclusão de planos para remover os registros correspondentes.
+- [X] Garantir que cada usuário tenha acesso somente aos seus próprios planos.
+- [X] Preservar os códigos HTTP e as mensagens de erro adequados.
 - [ ] Garantir que a geração por IA continue integrada ao fluxo de criação de planos.
 
 #### 4. Testes de persistência e integração
