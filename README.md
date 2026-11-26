@@ -188,12 +188,12 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 #### 4. Testes de persistência e integração
 
-- [ ] Testar o cadastro de usuários.
-- [ ] Testar o login e a autenticação após o cadastro.
-- [ ] Testar a criação, listagem e exclusão de planos.
-- [ ] Verificar o isolamento dos dados entre diferentes usuários.
-- [ ] Reiniciar a API e verificar se os dados continuam disponíveis.
-- [ ] Reiniciar o serviço de hospedagem e verificar a persistência dos registros.
+- [X] Testar o cadastro de usuários.
+- [X] Testar o login e a autenticação após o cadastro.
+- [X] Testar a criação, listagem e exclusão de planos.
+- [X] Verificar o isolamento dos dados entre diferentes usuários.
+- [X] Reiniciar a API e verificar se os dados continuam disponíveis.
+- [X] Reiniciar o serviço de hospedagem e verificar a persistência dos registros.
 - [ ] Testar novamente a geração de planos por IA.
 - [ ] Verificar se os principais fluxos funcionam sem erros críticos.
 
