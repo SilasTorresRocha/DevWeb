@@ -199,8 +199,8 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 #### 5. Atualização da hospedagem
 
-- [ ] Configurar a variável de ambiente da conexão com o banco no Render.
-- [ ] Garantir que a API hospedada utilize o banco de dados de produção.
+- [X] Configurar a variável de ambiente da conexão com o banco no Render.
+- [X] Garantir que a API hospedada utilize o banco de dados de produção.
 - [ ] Atualizar o backend hospedado com as alterações da Sprint 4.
 - [ ] Verificar os logs da aplicação e corrigir eventuais erros.
 - [ ] Testar o sistema completo utilizando o frontend da Vercel e a API do Render.
