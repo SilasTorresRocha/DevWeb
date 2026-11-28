@@ -21,7 +21,6 @@ export default function FormularioLogin({ aoEntrar, erroExterno = '' }) {
     setCarregando(true);
 
     const endpoint = modoCadastro ? '/api/auth/cadastro' : '/api/auth/login';
-console.log('URL da requisição:', `${API_URL}${endpoint}`);
     const corpo = modoCadastro
       ? { nome, email, senha }
       : { email, senha };

@@ -20,7 +20,7 @@ export default function FormularioPlano({
   const [tema, setTema] = useState('');
   const [carregandoIa, setCarregandoIa] = useState(false);
   const [erroIa, setErroIa] = useState('');
-
+  const [criadoPorIa, setCriadoPorIa] = useState(false);
   async function handlePreencherComIa() {
     if (!tema.trim()) {
       setErroIa('Informe um tema para gerar o plano com IA.');
@@ -58,6 +58,10 @@ export default function FormularioPlano({
       setHabilidadeBncc(dados.habilidade_bncc);
       setObjetivo(dados.objetivo);
       setMetodologia(dados.metodologia);
+      setCriadoPorIa(
+        dados.origem === 'api_gemini_ao_vivo' ||
+        dados.origem === 'cache_memoria (economia de cota)'
+      );
     } catch (erro) {
       if (erro instanceof TypeError) {
         setErroIa('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
@@ -84,7 +88,7 @@ export default function FormularioPlano({
       habilidadeBncc,
       objetivo: objetivo || 'Objetivo a ser definido pelo professor.',
       metodologia: metodologia || 'Metodologia padrão da aula.',
-      criado_por_ia: false
+      criado_por_ia: criadoPorIa
     };
 
     const sucesso = await aoAdicionarPlano(novoPlano);
@@ -95,6 +99,7 @@ export default function FormularioPlano({
       setObjetivo('');
       setMetodologia('');
       setTema('');
+      setCriadoPorIa(false);
     }
   }
 

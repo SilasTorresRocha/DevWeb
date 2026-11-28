@@ -1,15 +1,15 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
-# Instala as dependências primeiro para aproveitar o cache do Docker
+# Instala as dependências
 COPY package*.json ./
 RUN npm install
 
-# Copia o restante do código da aplicação
+# Copia o restante da aplicação
 COPY . .
 
-EXPOSE 8000
+EXPOSE 3000
 
-# Executa o servidor de desenvolvimento do Next.js
+# Inicia o servidor Next.js
 CMD ["npm", "run", "dev"]

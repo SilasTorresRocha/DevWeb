@@ -97,7 +97,7 @@ export default function PaginaPrincipal() {
           habilidade_bncc: novoPlano.habilidadeBncc,
           objetivo: novoPlano.objetivo,
           metodologia: novoPlano.metodologia,
-          criado_por_ia: false
+          criado_por_ia: novoPlano.criado_por_ia
         })
       });
 
