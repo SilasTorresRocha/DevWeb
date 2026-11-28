@@ -11,3 +11,4 @@ pwdlib[argon2]>=0.2.1
 
 sqlmodel>=0.0.24
 psycopg[binary]>=3.2
+

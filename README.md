@@ -153,20 +153,19 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 **Foco:** implementação de persistência real utilizando SQLModel, conclusão do sistema em produção e elaboração do manual do usuário.
 
 ### Checklist de desenvolvimento
-
 #### 1. Preparação do banco de dados
 
 - [X] Escolher e configurar um banco de dados compatível com SQLModel (PostgreSQL recomendado para produção).
-- [X] Criar uma instância de banco de dados hospedada (Neon, Supabase ou Render).
+- [X] Criar uma instância de banco de dados hospedada (Neon).
 - [X] Obter a URL de conexão com o banco de dados.
-- [X] Configurar a URL de conexão por meio de variável de ambiente.
-- [X] Atualizar as dependências do backend para incluir SQLModel e o driver do banco escolhido.
-- [ ] Configurar a conexão e o gerenciamento de sessões do banco de dados.
+- [X] Configurar a URL de conexão por meio de variável de ambiente (`DATABASE_URL`).
+- [X] Atualizar as dependências do backend para incluir SQLModel e o driver PostgreSQL (`psycopg`).
+- [X] Configurar a conexão e o gerenciamento de sessões do banco de dados.
 
 #### 2. Implementação dos modelos SQLModel
 
 - [X] Identificar as entidades existentes no sistema e seus atributos.
-- [X] Criar os modelos SQLModel correspondentes às entidades.
+- [X] Criar os modelos SQLModel correspondentes às entidades (`Usuario` e `Plano`).
 - [X] Definir corretamente os tipos dos atributos e as chaves primárias.
 - [X] Definir os relacionamentos entre usuários e planos.
 - [X] Configurar as chaves estrangeiras e os relacionamentos necessários.
@@ -193,7 +192,7 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 - [X] Testar a criação, listagem e exclusão de planos.
 - [X] Verificar o isolamento dos dados entre diferentes usuários.
 - [X] Reiniciar a API e verificar se os dados continuam disponíveis.
-- [X] Reiniciar o serviço de hospedagem e verificar a persistência dos registros.
+- [X] Verificar a persistência dos registros no banco hospedado após reinicializações.
 - [ ] Testar novamente a geração de planos por IA.
 - [ ] Verificar se os principais fluxos funcionam sem erros críticos.
 
@@ -201,10 +200,10 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 - [X] Configurar a variável de ambiente da conexão com o banco no Render.
 - [X] Garantir que a API hospedada utilize o banco de dados de produção.
-- [ ] Atualizar o backend hospedado com as alterações da Sprint 4.
-- [ ] Verificar os logs da aplicação e corrigir eventuais erros.
+- [X] Atualizar o backend hospedado com as alterações da Sprint 4.
+- [X] Verificar os logs da aplicação e confirmar a inicialização e conexão com o banco.
 - [ ] Testar o sistema completo utilizando o frontend da Vercel e a API do Render.
-- [ ] Confirmar que os dados permanecem salvos após reinicializações.
+- [X] Confirmar a persistência dos dados após reinicializações.
 
 #### 6. Manual do usuário
 
@@ -220,9 +219,9 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 #### 7. Finalização e entrega
 
-- [ ] Revisar o README e atualizar a estrutura do projeto.
-- [ ] Atualizar as instruções de instalação e execução do frontend e backend.
-- [ ] Conferir as variáveis de ambiente necessárias e o arquivo `.env.exemplo`.
+- [X] Revisar o README e atualizar as informações sobre o projeto e a Sprint 4.
+- [X] Atualizar as instruções de instalação e execução do frontend e backend.
+- [ ] Conferir as variáveis de ambiente necessárias e o arquivo `.env.example`.
 - [ ] Verificar se não existem credenciais ou informações sensíveis no repositório.
 - [ ] Conferir o histórico de commits no GitHub.
 - [ ] Gerar a documentação do projeto em PDF.
@@ -233,9 +232,9 @@ A persistência dos dados ainda é realizada em memória. Os dados são perdidos
 
 ### Critérios de conclusão da Sprint 4
 
-- [ ] Modelos SQLModel coerentes com as entidades, incluindo tipos e relacionamentos corretos.
-- [ ] Dados mantidos após reiniciar a API.
-- [ ] Sistema hospedado utilizando banco de dados persistente.
+- [X] Modelos SQLModel criados com entidades, tipos e relacionamentos.
+- [X] Dados mantidos após reiniciar a API.
+- [X] Sistema hospedado utilizando banco de dados persistente.
 - [ ] Fluxo principal funcionando sem erros críticos em produção.
 - [ ] Manual do usuário claro e focado nos principais fluxos.
 - [ ] Pitch de até 2 minutos preparado e demonstrando o sistema.

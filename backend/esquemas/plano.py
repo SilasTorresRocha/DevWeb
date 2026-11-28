@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class EsquemaCriarPlano(BaseModel):
@@ -7,10 +7,11 @@ class EsquemaCriarPlano(BaseModel):
     ano: str
     habilidade_bncc: str
     objetivo: str
-    metodologia: Optional[str] = ""
-    criado_por_ia: Optional[bool] = False
+    metodologia: str = Field(default="")
+    criado_por_ia: bool = Field(default=False)
 
 class EsquemaRespostaPlano(EsquemaCriarPlano):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     data_criacao: str
 

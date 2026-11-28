@@ -1,7 +1,7 @@
 
 services:
   # ==========================================
-  # BACKEND (FastAPI + Python + IA) - Sprint 3
+  # BACKEND (FastAPI + Python + IA + PostgreSQL)
   # ==========================================
   backend:
     build:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   # ==========================================
-  # FRONTEND (Next.js + Bootstrap) - Sprint 1
+  # FRONTEND (Next.js + React)
   # ==========================================
   frontend:
     build:
@@ -28,12 +28,12 @@ services:
       dockerfile: Dockerfile
     container_name: planofacil_frontend
     ports:
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
     environment:
       - NODE_ENV=development
-      - PORT=8080
+      - PORT=3000
     restart: unless-stopped
